@@ -1,0 +1,24 @@
+{% extends "drive/layout.html" %}
+{% block body %}
+{% if user.is_authenticated %}
+<div class="container-fluid vh-100 d-flex flex-column align-items-center justify-content-center"
+    style="background: black;">
+    <form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="card bg-dark p-4" style="width: 100%;">
+            <label for="files" class="form-label"><i
+                    class="fa fa-cloud-upload fa-5x card-img-top d-flex justify-content-center"
+                    aria-hidden="true"></i></label>
+            <input class="form-control" type="file" id="files" name="files" multiple>
+            <input type="submit" class="btn btn-light border-0 mt-2" value="Upload">
+        </div>
+    </form>
+    {% else %}
+    <div class="container-fluid vh-100 d-flex flex-column align-items-center justify-content-center"
+        style="background: black;">
+        <h1 id="tagline">Share Moments, Store Dreams</h1>
+        <a href="{% url 'login' %}" class="btn btn-outline-info btn-lg">Login</a>
+        {% endif %}
+    </div>
+
+    {% endblock %}

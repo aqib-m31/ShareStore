@@ -1,0 +1,40 @@
+{% extends "drive/layout.html" %}
+
+{% block body %}
+<div class="container-fluid vh-100 d-flex flex-column align-items-center justify-content-center"
+    style="background: black;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <form action="{% url 'register' %}" method="post" class="bg-dark p-4 rounded-3 col-lg-6 col-md-8 col-sm-10">
+                {% csrf_token %}
+                {% if message %}
+                <div class="bg-danger rounded-3">
+                    <p class="text-center py-1">{{ message }}</p>
+                </div>
+                {% endif %}
+                <h1 class="text-center mb-3">Register</h1>
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Username"
+                        value="{{ username }}">
+                </div>
+                <div class="mb-3">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email Address"
+                        value="{{ email }}">
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" id="confirmation" name="confirmation"
+                        placeholder="Confirm Password">
+                </div>
+                <div class="mb-3 d-grid">
+                    <input type="submit" value="Register" class="btn btn-outline-light">
+                </div>
+                <p class="text-center">Already have an account? <a href="{% url 'login' %}" class="text-info">LogIn
+                        here.</a></p>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

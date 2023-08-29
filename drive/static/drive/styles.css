@@ -1,0 +1,22 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    color: white;
+}
+#share-store {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.7rem;
+}
+
+#tagline {
+    font-size: 6.5vw;
+    font-family: 'Bebas Neue', sans-serif;
+    background: linear-gradient(90deg, #7FE787, #58A7FE);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-black {
+    color: black;
+}
