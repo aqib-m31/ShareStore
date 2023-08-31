@@ -2,13 +2,15 @@
     box-sizing: border-box;
     margin: 0px;
     color: white;
+    font-family: 'Montserrat', sans-serif;
 }
+
 #share-store {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.7rem;
 }
 
-#tagline {
+.tagline {
     font-size: 6.5vw;
     font-family: 'Bebas Neue', sans-serif;
     background: linear-gradient(90deg, #7FE787, #58A7FE);
@@ -17,6 +19,23 @@
     -webkit-text-fill-color: transparent;
 }
 
+.tagline.error {
+    font-size: 6.5vw;
+    font-family: 'Bebas Neue', sans-serif;
+    background: linear-gradient(90deg, #FF4C4C, #58A7FE);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .text-black {
     color: black;
+}
+
+.fields {
+    word-wrap: break-word;
+}
+
+.file {
+    background-image: linear-gradient(90deg,#000, #143045, #000);
 }

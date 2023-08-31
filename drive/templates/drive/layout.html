@@ -1,4 +1,11 @@
 {% load static %}
+{% url 'login' as login %}
+{% url 'register' as register %}
+{% url 'logout' as logout %}
+{% url 'index' as index %}
+{% url 'upload' as upload %}
+{% url 'notifications' as notifications %}
+
 <!doctype html>
 <html lang="en">
 
@@ -11,7 +18,8 @@
     <link rel="stylesheet" href="{% static 'drive/styles.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
     <script src="https://use.fontawesome.com/d1d0840a4c.js"></script>
 </head>
 
@@ -23,22 +31,49 @@
                     class="d-inline-block align-text-top rounded-circle align-self-center">
                 <span id="share-store" class="align-self-center ms-2">Share Store</span>
             </a>
-            {% if user.is_authenticated %}
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
                 aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav nav-underline me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Logout</a>
+                        <a class="nav-link {% if request.path == index %}active{% endif %}" aria-current="page"
+                            href="{% url 'index' %}">Home</a>
                     </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == upload %}active{% endif %}" aria-current="page"
+                            href="{% url 'upload' %}">Upload</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == notifications %}active{% endif %}" aria-current="page"
+                            href="{% url 'notifications' %}">Notifications</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == logout %}active{% endif %}" aria-current="page"
+                            href="{% url 'logout' %}">Logout</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == login %}active{% endif %}"
+                            href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == register %}active{% endif %}"
+                            href="{% url 'register' %}">Register</a>
+                    </li>
+                    {% endif %}
                 </ul>
+                {% if user.is_authenticated %}
                 <span class="navbar-text d-flex">
-                    <span class="align-self-center me-2" style="opacity: 0.5;">Signed in as <b>{{ user.username }}</b></span>
+                    <span class="align-self-center me-2" style="opacity: 0.5;">Signed in as
+                        <b>{{ user.username }}</b></span>
                 </span>
+                {% endif %}
             </div>
-            {% endif %}
+
         </div>
     </nav>
     {% block body %}

@@ -1,22 +1,40 @@
 {% extends "drive/layout.html" %}
 {% block body %}
 {% if user.is_authenticated %}
-<div class="container-fluid vh-100 d-flex flex-column align-items-center justify-content-center"
-    style="background: black;">
-    <form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="card bg-dark p-4" style="width: 100%;">
-            <label for="files" class="form-label"><i
-                    class="fa fa-cloud-upload fa-5x card-img-top d-flex justify-content-center"
-                    aria-hidden="true"></i></label>
-            <input class="form-control" type="file" id="files" name="files" multiple>
-            <input type="submit" class="btn btn-light border-0 mt-2" value="Upload">
+<div class="container-fluid min-vh-100" style="background: black;">
+    <div class="container p-3">
+        {% if not files %}
+        <div class="alert alert-info" role="alert">
+            No files here! <a href="{% url 'upload' %}" class="alert-link">Upload a FILE</a>.
         </div>
-    </form>
+        {% else %}
+        <div class="row p-2 mb-1 border bg-light">
+            <div class="text-dark col-4 fw-bold">File Name</div>
+            <div class="text-dark col-2 fw-bold">File Size</div>
+            <div class="text-dark col-4 fw-bold">Uploaded At</div>
+            <div class="text-dark col-2 fw-bold">Actions</div>
+        </div>
+        {% for file in files %}
+        <div class="row p-2 border border-dark my-1 file">
+            <div class="row align-items-center">
+                <div class="col-4 fields">{{ file.name }}</div>
+                <div class="col-2 fields">{{ file.formatted_size }}</div>
+                <div class="col-4 fields"><small>{{ file.uploaded_at }}</small></div>
+                <div class="col-2 fields">
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'download' file.id %}" class="btn btn-sm btn-outline-light">Download</a>
+                        <a href="{% url 'download' file.id %}" class="btn btn-sm btn-outline-light">Manage Access</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
     {% else %}
     <div class="container-fluid vh-100 d-flex flex-column align-items-center justify-content-center"
         style="background: black;">
-        <h1 id="tagline">Share Moments, Store Dreams</h1>
+        <h1 class="tagline">Share Moments, Store Dreams</h1>
         <a href="{% url 'login' %}" class="btn btn-outline-info btn-lg">Login</a>
         {% endif %}
     </div>

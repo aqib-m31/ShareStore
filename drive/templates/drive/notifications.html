@@ -1,0 +1,27 @@
+{% extends "drive/layout.html" %}
+{% block body %}
+{% if user.is_authenticated %}
+<div class="container-fluid min-vh-100" style="background: black;">
+    <div class="container p-3">
+        {% if not notifications.count %}
+        <div class="alert alert-success" role="alert">
+            No notifications yet!
+        </div>
+        {% else %}
+        {% for notification in notifications %}
+        <div class="bg-success-subtle p-2">
+            <div>{{ notification.message }}</div>
+        </div>
+        </a>
+        {% endfor %}
+        {% endif %}
+    </div>
+    {% else %}
+    <div class="container-fluid vh-100 d-flex flex-column align-items-center justify-content-center"
+        style="background: black;">
+        <h1 class="tagline">Share Moments, Store Dreams</h1>
+        <a href="{% url 'login' %}" class="btn btn-outline-info btn-lg">Login</a>
+        {% endif %}
+    </div>
+
+    {% endblock %}
