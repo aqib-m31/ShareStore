@@ -8,5 +8,9 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
     path("upload", views.upload, name="upload"),
     path("download/<int:id>", views.download, name="download"),
-    path("notifications", views.notifications, name="notifications"),
+    path("shared", views.shared, name="shared"),
+    path("shared-with-me", views.shared_with_me, name="shared_with_me"),
+    path("file/shared-with/<int:id>", views.shared_with, name="shared_with"),
+    path("file/<int:id>", views.file, name="file"),
+    path("permissions/<int:id>", views.manage_access, name="manage_access"),
 ]

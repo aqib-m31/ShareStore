@@ -29,3 +29,14 @@ def file_iterator(file, chunk_size=8192):
             if not chunk:
                 break
             yield chunk
+
+
+def delete_file(path):
+    if os.path.exists(path):
+        try:
+            os.remove(path)
+        except OSError:
+            print(OSError.errno)
+        else:
+            return True
+    return False

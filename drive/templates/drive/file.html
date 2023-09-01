@@ -1,0 +1,61 @@
+{% extends "drive/layout.html" %}
+{% load static %}
+{% block body %}
+{% if user.is_authenticated %}
+<div class="container-fluid min-vh-100 d-flex flex-column align-items-center justify-content-center p-3"
+    style="background: black;">
+        {% csrf_token %}
+    <div>
+        <div class="rounded-3 p-2 text-center mb-2 d-none" id="msg"></div>
+        <div class="card file p-5 border border-dark rounded-5 flex-row justify-content-center" style="color: white;">
+            <div>
+                <p><b>File Name</b>: {{ file.name }}</p>
+                <p><b>Owner</b>: {{ file.user }}</p>
+                <p><b>File Size</b>: {{ file.formatted_size }}</p>
+                <p><b>Type</b>: {{ file.type }}</p>
+                <p><b>Uploaded at</b>: {{ file.uploaded_at }}</p>
+                <p><b>Access</b>: 
+                    <span id="permission">
+                    {% if not file.sharing_status %}
+                    Not Shared <i class="fa fa-lock" aria-hidden="true"></i>
+                    {% elif file.access_permissions == 'Restricted' %}
+                    Restricted <i class="fa fa-users" aria-hidden="true"></i>
+                    {% elif file.access_permissions == 'Everyone' %}
+                    Everyone <i class="fa fa-link" aria-hidden="true"></i>
+                    {% endif %}
+                    </span>
+                </p>
+                <div class="d-grid gap-2">
+                    <a href="{% url 'download' file.id %}" class="btn btn-sm btn-outline-light">Download</a>
+                    <button class="btn btn-sm btn-outline-light" id="manage-access" data-id="{{ file.id }}">Manage Access</button>
+                    <a href="{% url 'index' %}" class="btn btn-sm btn-outline-light">Home</a>
+                    <button class="btn btn-sm btn-danger" id="remove-file"><i class="fa fa-trash-o" aria-hidden="true"></i> Remove File</button>
+                </div>
+            </div>
+            <div class="align-self-center ms-4 d-none" id="ma-form">
+                <select class="form-select text-dark" id="access">
+                    <option class="text-dark" value="Private" {% if not file.sharing_status %}selected{% endif %}>Not Shared</option>
+                    <option class="text-dark" value="Restricted" {% if file.access_permissions == 'Restricted' %}selected{% endif %}>Restricted</option>
+                    <option class="text-dark" value="Everyone" {% if file.access_permissions == 'Everyone' %}selected{% endif %}>Everyone</option>
+                </select>
+                
+                <form class="{% if file.access_permissions != 'Restricted' %}d-none{% endif %} mt-3">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Share with</label>
+                        <input class="form-control form-control-sm" type="text" placeholder="Username" id="username" autocomplete="off">
+                    </div>
+                    <input type="submit" value="Share" class="btn-sm btn btn-outline-warning">
+                </form>
+            </div>
+        </div>
+        <div class="sw p-2 border border-dark rounded-2 mt-2 text-center" style="color: white;">
+            <p class="fw-bolder">Selected Users</p>
+            <ul id="sw-ul">
+
+            </ul>
+        </div>
+    </div>
+</div>
+{% endif %}
+<script src="{% static 'drive/file.js' %}"></script>
+{% endblock %}

@@ -33,25 +33,12 @@ class File(models.Model):
         return f"{self.name} uploaded by {self.user.username} at {self.uploaded_at}"
 
 
-class Notification(models.Model):
-    message = models.CharField(max_length=255)
-    sender = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="notifications_sent"
-    )
-    receiver = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="notifications"
-    )
-
-    def __str__(self) -> str:
-        return f"{self.receiver.username} notified by {self.sender.username}"
-
-
 class Share(models.Model):
-    file = models.ForeignKey(File, on_delete=models.CASCADE, related_name="shared_with")
-    user = models.ManyToManyField(User, related_name="shared_files")
-    notification = models.ForeignKey(
-        Notification, on_delete=models.DO_NOTHING, related_name="shared_file"
+    file = models.ForeignKey(File, on_delete=models.CASCADE, related_name="shared")
+    sender = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="shared_files"
     )
+    receiver = models.ManyToManyField(User, related_name="shared_with")
 
     def __str__(self) -> str:
-        return f"{self.file.name} shared with {self.user}"
+        return f"{self.sender.username} shared {self.file.name}"

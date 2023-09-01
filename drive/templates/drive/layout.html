@@ -4,7 +4,8 @@
 {% url 'logout' as logout %}
 {% url 'index' as index %}
 {% url 'upload' as upload %}
-{% url 'notifications' as notifications %}
+{% url 'shared' as shared %}
+{% url 'shared_with_me' as shared_with_me %}
 
 <!doctype html>
 <html lang="en">
@@ -48,8 +49,12 @@
                             href="{% url 'upload' %}">Upload</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == notifications %}active{% endif %}" aria-current="page"
-                            href="{% url 'notifications' %}">Notifications</a>
+                        <a class="nav-link {% if request.path == shared %}active{% endif %}" aria-current="page"
+                            href="{% url 'shared' %}">Shared Files</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == shared_with_me %}active{% endif %}" aria-current="page"
+                            href="{% url 'shared_with_me' %}">Shared with me</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == logout %}active{% endif %}" aria-current="page"
