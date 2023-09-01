@@ -1,44 +1,41 @@
 {% extends "drive/layout.html" %}
 {% block body %}
-{% if user.is_authenticated %}
-<div class="container-fluid min-vh-100 p-3" style="background: black;">
-    <div class="container p-3">
-        {% if not files %}
-        <div class="alert alert-info" role="alert">
-            No files here! <a href="{% url 'upload' %}" class="alert-link">Upload a FILE</a>.
-        </div>
-        {% else %}
-        <div class="row p-2 mb-1 border bg-light justify-content-center">
-            <div class="text-dark col-7 fw-bold">File Name</div>
-            <div class="text-dark col-3 fw-bold">File Size</div>
-            <div class="text-dark text-center col-2 fw-bold">Actions</div>
-        </div>
-        {% for file in files %}
-        <div class="row p-2 border border-dark my-1 file justify-content-center">
-            <div class="row align-items-center p-0">
-                <div class="col-7 fields">{{ file.name }}</div>
-                <div class="col-3 fields"><small>{{ file.formatted_size }}</small></div>
-                <div class="col-2 fields d-flex justify-content-center">
-                    <div class="me-3">
-                        <a href="{% url 'download' file.id %}"><i class="fa fa-cloud-download fa-2x"
-                                aria-hidden="true"></i></a>
+    {% if user.is_authenticated %}
+        <div class="container-fluid min-vh-100 p-3" style="background: black;">
+            <div class="container p-3">
+                {% if not files %}
+                    <div class="alert alert-info" role="alert">
+                        No files here! <a href="{% url 'upload' %}" class="alert-link">Upload a FILE</a>.
                     </div>
-                    <div>
-                        <a href="{% url 'file' file.id %}"><i class="fa fa-info-circle fa-2x"
-                                aria-hidden="true"></i></a>
+                {% else %}
+                    <div class="row p-2 mb-1 border bg-light justify-content-center">
+                        <div class="text-dark col-7 fw-bold">File Name</div>
+                        <div class="text-dark col-3 fw-bold">File Size</div>
+                        <div class="text-dark text-center col-2 fw-bold">Actions</div>
                     </div>
-                </div>
+                    {% for file in files %}
+                        <div class="row p-2 border border-dark my-1 file justify-content-center">
+                            <div class="row align-items-center p-0">
+                                <div class="col-7 fields">{{ file.name }}</div>
+                                <div class="col-3 fields"><small>{{ file.formatted_size }}</small></div>
+                                <div class="col-2 fields d-flex justify-content-center">
+                                    <div class="me-3">
+                                        <a href="{% url 'download' file.id %}"><i class="fa fa-cloud-download fa-2x" aria-hidden="true"></i></a>
+                                    </div>
+                                    <div>
+                                        <a href="{% url 'file' file.id %}"><i class="fa fa-info-circle fa-2x" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
-        </div>
-        {% endfor %}
-        {% endif %}
-    </div>
     {% else %}
-    <div class="container-fluid vh-100 d-flex flex-column align-items-center justify-content-center"
-        style="background: black;">
-        <h1 class="tagline">Share Moments, Store Dreams</h1>
-        <a href="{% url 'login' %}" class="btn btn-outline-info btn-lg">Login</a>
-        {% endif %}
+        <div class="container-fluid vh-100 d-flex flex-column align-items-center justify-content-center" style="background: black;">
+            <h1 class="tagline">Share Moments, Store Dreams</h1>
+            <a href="{% url 'login' %}" class="btn btn-outline-info btn-lg">Login</a>
+    {% endif %}
     </div>
 
-    {% endblock %}
+{% endblock %}

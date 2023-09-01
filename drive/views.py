@@ -1,7 +1,6 @@
 import json
 from django.shortcuts import render
 from django.http import (
-    HttpResponse,
     HttpResponseRedirect,
     StreamingHttpResponse,
     JsonResponse,
@@ -126,14 +125,13 @@ def upload(request):
                         "drive/upload.html",
                         {"error": "Couldn't save the file info! Try again!"},
                     )
-                else:
-                    return HttpResponseRedirect(reverse("index"))
             else:
                 return render(
                     request,
                     "drive/upload.html",
                     {"error": "An error occurred! Try again!"},
                 )
+        return HttpResponseRedirect(reverse("index"))
 
     return render(request, "drive/upload.html")
 

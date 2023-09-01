@@ -1,18 +1,19 @@
 const id = document.querySelector('#manage-access').dataset.id;
+
 function toggleAlterPermissions() {
     document.querySelector('#ma-form').classList.toggle('d-none');
 }
 async function removePermissions(username) {
     const result = await fetch(`/permissions/${id}`, {
-        method: 'DELETE',
-        headers: {
-            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-        },
-        body: JSON.stringify({
-            permission: document.querySelector('#access').value,
-            username: username
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify({
+                permission: document.querySelector('#access').value,
+                username: username
+            })
         })
-    })
         .then(response => response.json())
         .then(result => {
             return result;
@@ -52,7 +53,7 @@ function updateSharedWith() {
                 for (const username of result.usernames) {
                     const li = document.createElement('li');
                     li.innerHTML += `<div class="d-flex w-50 text-dark align-items-center">${username}</div><div class="d-flex justify-content-end w-50"><button type="button" class="btn btn-sm btn-outline-danger remove-access" aria-label="Remove">Remove</button></div>`;
-                    li.setAttribute('class', 'list-group-item d-flex rounded-3');
+                    li.setAttribute('class', 'list-group-item d-flex rounded-3 mb-1');
                     ul.appendChild(li);
                 }
                 users.appendChild(ul);
@@ -74,7 +75,7 @@ function updateSharedWith() {
 }
 updateSharedWith();
 document.querySelector('#manage-access').addEventListener('click', toggleAlterPermissions);
-document.querySelector('#access').addEventListener('change', function () {
+document.querySelector('#access').addEventListener('change', function() {
     if (this.value === 'Restricted') {
         document.forms[0].classList.remove('d-none');
     } else {
@@ -90,15 +91,15 @@ document.forms[0].onsubmit = (event) => {
 
 function changePermissions() {
     fetch(`/permissions/${id}`, {
-        method: 'PUT',
-        headers: {
-            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-        },
-        body: JSON.stringify({
-            permission: document.querySelector('#access').value,
-            username: document.querySelector('#username').value
+            method: 'PUT',
+            headers: {
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify({
+                permission: document.querySelector('#access').value,
+                username: document.querySelector('#username').value
+            })
         })
-    })
         .then(response => {
             return response.json()
         })

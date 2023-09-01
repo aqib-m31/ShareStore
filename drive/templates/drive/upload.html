@@ -1,22 +1,19 @@
 {% extends "drive/layout.html" %}
 
 {% block body %}
-{% if user.is_authenticated %}
-<div class="container-fluid min-vh-100 d-flex flex-column align-items-center justify-content-center p-3"
-    style="background: black;">
-    <form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% if error %}
-        <div class="bg-danger rounded-3 p-2 text-center mb-2">{{ error }}</div>
-        {% endif %}
-        <div class="card file p-5 border border-dark rounded-5" style="width: 100%;">
-            <label for="files" class="form-label"><i
-                    class="fa fa-cloud-upload fa-5x card-img-top d-flex justify-content-center"
-                    aria-hidden="true"></i></label>
-            <input class="form-control" type="file" id="files" name="files" multiple>
-            <input type="submit" class="btn btn-light border-0 mt-2" value="Upload">
+    {% if user.is_authenticated %}
+        <div class="container-fluid min-vh-100 d-flex flex-column align-items-center justify-content-center p-3" style="background: black;">
+            <form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if error %}
+                    <div class="bg-danger rounded-3 p-2 text-center mb-2">{{ error }}</div>
+                {% endif %}
+                <div class="card file p-5 border border-dark rounded-5" style="width: 100%;">
+                    <label for="files" class="form-label"><i class="fa fa-cloud-upload fa-5x card-img-top d-flex justify-content-center" aria-hidden="true"></i></label>
+                    <input class="form-control" type="file" id="files" name="files" multiple>
+                    <input type="submit" class="btn btn-light border-0 mt-2" value="Upload">
+                </div>
+            </form>
         </div>
-    </form>
-</div>
-{% endif %}
+    {% endif %}
 {% endblock %}

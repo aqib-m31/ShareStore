@@ -10,82 +10,69 @@
 <!doctype html>
 <html lang="en">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Share Store</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'drive/styles.css' %}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600&display=swap"
-        rel="stylesheet">
-    <script src="https://use.fontawesome.com/d1d0840a4c.js"></script>
-</head>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Share Store</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'drive/styles.css' %}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+        <script src="https://use.fontawesome.com/d1d0840a4c.js"></script>
+    </head>
 
-<body>
-    <nav class="navbar navbar-expand-lg" data-bs-theme="dark" style="background: rgba(0, 0, 0, 0.9);">
-        <div class="container-fluid">
-            <a class="navbar-brand d-flex" href="{% url 'index' %}">
-                <img src="{% static 'drive/logo.png' %}" alt="Logo" width="40" height="40"
-                    class="d-inline-block align-text-top rounded-circle align-self-center">
-                <span id="share-store" class="align-self-center ms-2">Share Store</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <body>
+        <nav class="navbar navbar-expand-lg" data-bs-theme="dark" style="background: rgba(0, 0, 0, 0.9);">
+            <div class="container-fluid">
+                <a class="navbar-brand d-flex" href="{% url 'index' %}">
+                    <img src="{% static 'drive/logo.png' %}" alt="Logo" width="40" height="40" class="d-inline-block align-text-top rounded-circle align-self-center">
+                    <span id="share-store" class="align-self-center ms-2">Share Store</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-            <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav nav-underline me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == index %}active{% endif %}" aria-current="page"
-                            href="{% url 'index' %}">Home</a>
-                    </li>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav nav-underline me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == index %}active{% endif %}" aria-current="page" href="{% url 'index' %}">Home</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.path == upload %}active{% endif %}" aria-current="page" href="{% url 'upload' %}">Upload</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.path == shared %}active{% endif %}" aria-current="page" href="{% url 'shared' %}">Shared Files</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.path == shared_with_me %}active{% endif %}" aria-current="page" href="{% url 'shared_with_me' %}">Shared with me</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.path == logout %}active{% endif %}" aria-current="page" href="{% url 'logout' %}">Logout</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.path == login %}active{% endif %}" href="{% url 'login' %}">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.path == register %}active{% endif %}" href="{% url 'register' %}">Register</a>
+                            </li>
+                        {% endif %}
+                    </ul>
                     {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == upload %}active{% endif %}" aria-current="page"
-                            href="{% url 'upload' %}">Upload</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == shared %}active{% endif %}" aria-current="page"
-                            href="{% url 'shared' %}">Shared Files</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == shared_with_me %}active{% endif %}" aria-current="page"
-                            href="{% url 'shared_with_me' %}">Shared with me</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == logout %}active{% endif %}" aria-current="page"
-                            href="{% url 'logout' %}">Logout</a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == login %}active{% endif %}"
-                            href="{% url 'login' %}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == register %}active{% endif %}"
-                            href="{% url 'register' %}">Register</a>
-                    </li>
+                        <span class="navbar-text d-flex">
+                            <span class="align-self-center me-2" style="opacity: 0.5;">Signed in as
+                                <b>{{ user.username }}</b></span>
+                        </span>
                     {% endif %}
-                </ul>
-                {% if user.is_authenticated %}
-                <span class="navbar-text d-flex">
-                    <span class="align-self-center me-2" style="opacity: 0.5;">Signed in as
-                        <b>{{ user.username }}</b></span>
-                </span>
-                {% endif %}
-            </div>
+                </div>
 
-        </div>
-    </nav>
-    {% block body %}
-    {% endblock %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-        crossorigin="anonymous"></script>
-</body>
+            </div>
+        </nav>
+        {% block body %}
+        {% endblock %}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    </body>
 
 </html>

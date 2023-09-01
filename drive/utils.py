@@ -19,10 +19,11 @@ def handle_uploaded_file(file, user_id):
         for chunk in file.chunks():
             destination.write(chunk)
 
-    return file_path
+    return os.path.join(user_folder, filename)
 
 
-def file_iterator(file, chunk_size=8192):
+def file_iterator(file_path, chunk_size=8192):
+    file = os.path.join(settings.MEDIA_ROOT, file_path)
     with open(file, "rb") as f:
         while True:
             chunk = f.read(chunk_size)
@@ -32,6 +33,7 @@ def file_iterator(file, chunk_size=8192):
 
 
 def delete_file(path):
+    path = os.path.join(settings.MEDIA_ROOT, path)
     if os.path.exists(path):
         try:
             os.remove(path)
