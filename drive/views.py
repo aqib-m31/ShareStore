@@ -9,7 +9,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.db import IntegrityError
 from .models import File, User, Share
-from .utils import handle_uploaded_file, file_iterator, delete_file
+from .utils import file_iterator
+from datetime import datetime
+from time import time
+from .firebase import bucket
 
 
 # Create your views here.
@@ -108,7 +111,22 @@ def register_view(request):
 def upload(request):
     if request.method == "POST" and request.FILES:
         for file in request.FILES.getlist("files"):
-            if file_path := handle_uploaded_file(file, request.user.id):
+            try:
+                file_name = f"{request.user.id}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{file.name}"
+                file_path = f"user_uploads/user_{request.user.id}/{file_name}"
+                blob = bucket.blob(file_path)
+                blob.upload_from_file(file)
+                print(
+                    f"File {file.name} uploaded to {file_path}."
+                )
+            except Exception as e:
+                print(e)
+                return render(
+                        request,
+                        "drive/upload.html",
+                        {"error": "Couldn't upload file! Try again!"},
+                    )
+            else:
                 try:
                     f = File(
                         user=request.user,
@@ -119,19 +137,17 @@ def upload(request):
                         access_permissions="Private",
                     )
                     f.save()
+                    # raise IntegrityError
                 except IntegrityError:
+                    # Remove the file from firebase if details weren't saved! TODO
+                    blob.delete()
                     return render(
                         request,
                         "drive/upload.html",
                         {"error": "Couldn't save the file info! Try again!"},
                     )
-            else:
-                return render(
-                    request,
-                    "drive/upload.html",
-                    {"error": "An error occurred! Try again!"},
-                )
-        return HttpResponseRedirect(reverse("index"))
+                else:
+                    return HttpResponseRedirect(reverse("index"))
 
     return render(request, "drive/upload.html")
 
@@ -153,13 +169,19 @@ def download(request, id):
         )
     ):
         try:
+            blob = bucket.blob(file.path)
+            if not blob.exists():
+                return render(request, "drive/404.html")
+            
+            expiration = int(time() + 86400)
+            signed_url = blob.generate_signed_url(expiration=expiration)
             response = StreamingHttpResponse(
-                file_iterator(file.path), content_type=file.type
+                file_iterator(signed_url), content_type="application/octet-stream"
             )
             response["Content-Disposition"] = f'attachment; filename="{file.name}"'
             return response
-        except Exception:
-            print("Error, Couldn't open file!")
+        except Exception as e:
+            print(f"Error, Couldn't open file! {e}")
     else:
         return render(request, "drive/403.html", status=403)
     return HttpResponseRedirect(reverse("index"))
@@ -191,11 +213,18 @@ def file(request, id):
     if request.method == "DELETE":
         if file := File.objects.filter(pk=id).first():
             if file.user == request.user:
-                if delete_file(file.path):
+                try:
+                    file_path = file.path
+                    blob = bucket.blob(file_path)
+                    if not blob.exists():
+                        return JsonResponse({"error": "Not Found"}, status=404)
+                    blob.delete()
                     file.delete()
-                    return HttpResponseRedirect(reverse("index"))
-                else:
+                except Exception as e:
+                    print(f"Error {e}")
                     return JsonResponse({"error": "Server Error"}, status=500)
+                else:
+                    return HttpResponseRedirect(reverse("index"))
             return JsonResponse({"error": "FORBIDDEN"}, status=403)
         return JsonResponse({"error": "Not Found"}, status=404)
 
