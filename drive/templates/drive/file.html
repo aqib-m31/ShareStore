@@ -6,7 +6,7 @@
             {% csrf_token %}
             <div>
                 <div class="rounded-3 p-2 text-center mb-2 d-none" id="msg"></div>
-                <div class="card file p-5 border border-dark rounded-5 flex-row justify-content-center" style="color: white;">
+                <div class="card file p-5 border border-dark rounded-5 flex-sm-column flex-md-row justify-content-center" style="color: white;">
                     <div>
                         <p><b>File Name</b>: {{ file.name }}</p>
                         <p><b>Owner</b>: {{ file.user }}</p>
@@ -31,7 +31,7 @@
                             <button class="btn btn-sm btn-danger" id="remove-file"><i class="fa fa-trash-o" aria-hidden="true"></i> Remove File</button>
                         </div>
                     </div>
-                    <div class="align-self-center ms-4 d-none" id="ma-form">
+                    <div class="align-self-center ms-4 mt-4 d-none" id="ma-form">
                         <select class="form-select text-dark" id="access">
                             <option class="text-dark" value="Private" {% if not file.sharing_status %}selected{% endif %}>Not Shared</option>
                             <option class="text-dark" value="Restricted" {% if file.access_permissions == 'Restricted' %}selected{% endif %}>Restricted</option>

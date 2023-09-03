@@ -43,3 +43,9 @@
 .sw {
     background-image: linear-gradient(90deg, #143045, #000, #143045);
 }
+
+@media screen and (max-width: 570px) {
+    .sp-width{
+        width: 100%;
+    }
+}

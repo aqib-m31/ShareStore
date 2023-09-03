@@ -2,30 +2,28 @@
 {% block body %}
     {% if user.is_authenticated %}
         <div class="container-fluid min-vh-100 p-3" style="background: black;">
-            <div class="container p-3">
+            <div class="container-fluid p-3">
                 {% if not shared_files.count %}
                     <div class="alert alert-info" role="alert">
                         No files shared with you yet!
                     </div>
                 {% else %}
-                    <div class="row p-2 mb-1 border bg-light justify-content-center">
+                    <div class="d-flex p-2 mb-1 border bg-light">
                         <div class="text-dark col-4 fw-bold">File Name</div>
                         <div class="text-dark col-3 fw-bold">Owner</div>
-                        <div class="text-dark col-3 fw-bold">File Size</div>
-                        <div class="text-dark text-center col-2 fw-bold">Download</div>
+                        <div class="text-dark col-md-3 d-none d-md-block fw-bold">File Size</div>
+                        <div class="text-dark text-center col-md-2 col-sm-5 fw-bold sp-width">Download</div>
                     </div>
                     {% for file in shared_files %}
-                        <div class="row p-2 border border-dark my-1 file justify-content-center">
-                            <div class="row align-items-center p-0">
-                                <div class="col-4 fields">{{ file.file.name }}</b></div>
+                        <div class="d-flex p-2 border border-dark my-1 file">
+                            <div class="col-4 fields">{{ file.file.name }}</b></div>
                             <div class="col-3 fields">{{ file.sender.username }}</div>
-                            <div class="col-3 fields"><small>{{ file.file.formatted_size }}</small></div>
-                            <div class="col-2 fields d-flex justify-content-center">
+                            <div class="col-md-3 d-none d-md-block fields"><small>{{ file.file.formatted_size }}</small></div>
+                            <div class="col-md-2 col-sm-5 fields d-flex justify-content-center sp-width">
                                 <div class="me">
                                     <a href="{% url 'download' file.file.id %}"><i class="fa fa-cloud-download fa-2x" aria-hidden="true"></i></a>
                                 </div>
                             </div>
-                        </div>
                         </div>
                     {% endfor %}
                 {% endif %}
