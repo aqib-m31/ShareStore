@@ -199,8 +199,7 @@ def upload(request):
                         "drive/upload.html",
                         {"error": "Couldn't save file info! Please try again."},
                     )
-                else:
-                    return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("index"))
 
     return render(request, "drive/upload.html")
 
