@@ -4,6 +4,8 @@ import json
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 from django.http import (
     HttpResponseRedirect,
@@ -125,6 +127,20 @@ def register_view(request):
                 },
             )
 
+        try:
+            validate_password(password)
+        except ValidationError as e:
+            errors = e.messages
+            return render(
+                request,
+                "drive/register.html",
+                {
+                    "errors": errors,
+                    "username": username,
+                    "email": email,
+                },
+            )
+            
         try:
             user = User.objects.create_user(
                 username=username, email=email, password=password

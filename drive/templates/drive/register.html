@@ -7,11 +7,18 @@
                 <form action="{% url 'register' %}" method="post" class="bg-dark p-4 rounded-3 col-lg-6 col-md-8 col-sm-10">
                     {% csrf_token %}
                     {% if message %}
-                        <div class="bg-danger rounded-3">
-                            <p class="text-center py-1">{{ message }}</p>
+                        <div class="bg-danger rounded-3 p-1">
+                            <p class="text-center m-0">{{ message }}</p>
                         </div>
                     {% endif %}
-                    <h1 class="text-center mb-3">Register</h1>
+                    {% if errors %}
+                        <div class="bg-danger rounded-3 p-1">
+                            {% for error in errors %}
+                                <p class="text-center m-0" style="font-size: 12px;">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <h1 class="text-center my-3">Register</h1>
                     <div class="mb-3">
                         <input type="text" class="form-control" id="username" name="username" placeholder="Username" value="{{ username }}">
                     </div>
