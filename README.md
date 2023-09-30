@@ -4,6 +4,7 @@ Share Store is a web-based file sharing and storage application built using Djan
 
 Share Store allows users to register, log in, upload files, and manage access permissions for those files. Users can share their files with specific individuals or make them accessible to everyone. Additionally, users can view files shared with them by others. Share Store employs Firebase Storage for file storage and retrieval. It provides features like user authentication, file upload/download, and access control, making it a versatile file-sharing platform.
 
+[Project Demo](https://youtu.be/0iN3-Odnxy0?si=5VipCIYMWm4CGpjJ)
 
 ### Distinctiveness and Complexity
 1. **Distinctiveness**:
