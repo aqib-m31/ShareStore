@@ -28,7 +28,7 @@ def index(request):
     Otherwise, show index page with login button.
     """
     if request.user.is_authenticated:
-        user_files = File.objects.filter(user=request.user)
+        user_files = File.objects.filter(user=request.user).order_by('-uploaded_at')
         return render(
             request,
             "drive/index.html",
@@ -47,6 +47,10 @@ def login_view(request):
 
     If the request method is not POST, render the login page.
     """
+    # If user is already logged in, redirect to index page
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("index"))
+
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
@@ -95,6 +99,10 @@ def register_view(request):
     passwords match, and checks for duplicate usernames. If successful, the user is
     logged in and redirected to the index page.
     """
+    # If user is already logged in, redirect to index page
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("index"))
+
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
@@ -283,7 +291,7 @@ def shared(request):
     return render(
         request,
         "drive/shared.html",
-        {"shared_files": File.objects.filter(sharing_status=True, user=request.user)},
+        {"shared_files": File.objects.filter(sharing_status=True, user=request.user).order_by('-uploaded_at')},
     )
 
 
