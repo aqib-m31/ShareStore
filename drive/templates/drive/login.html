@@ -1,5 +1,6 @@
 {% extends "drive/layout.html" %}
 
+{% load static %}
 {% block body %}
     <div class="container-fluid min-vh-100 d-flex flex-column align-items-center justify-content-center p-3" style="background: black;">
 
@@ -17,7 +18,10 @@
                         <input type="text" class="form-control" id="username" name="username" placeholder="Username" autofocus value="{{ username }}">
                     </div>
                     <div class="mb-3">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                        <input type="password" class="form-control pwd" id="password" name="password" placeholder="Password">
+                    </div>
+                    <div class="mb-3">
+                        <input type="checkbox" id="showPassword"> Show Password
                     </div>
                     <div class="mb-3 d-grid">
                         <input type="submit" value="Login" class="btn btn-outline-light">
@@ -28,4 +32,5 @@
             </div>
         </div>
     </div>
+    <script src="{% static 'drive/showPassword.js' %}"></script>
 {% endblock %}

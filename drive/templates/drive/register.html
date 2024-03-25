@@ -1,5 +1,6 @@
 {% extends "drive/layout.html" %}
 
+{% load static %}
 {% block body %}
     <div class="container-fluid min-vh-100 d-flex flex-column align-items-center justify-content-center p-3" style="background: black;">
         <div class="container">
@@ -26,10 +27,14 @@
                         <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" value="{{ email }}">
                     </div>
                     <div class="mb-3">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                        <input type="password" class="form-control pwd" id="password" name="password" placeholder="Password">
                     </div>
                     <div class="mb-3">
-                        <input type="password" class="form-control" id="confirmation" name="confirmation" placeholder="Confirm Password">
+                        <input type="password" class="form-control pwd" id="confirmation" name="confirmation" placeholder="Confirm Password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="showPassword"></label>
+                        <input type="checkbox" id="showPassword"> Show Password
                     </div>
                     <div class="mb-3 d-grid">
                         <input type="submit" value="Register" class="btn btn-outline-light">
@@ -40,4 +45,5 @@
             </div>
         </div>
     </div>
+    <script src="{% static 'drive/showPassword.js' %}"></script>
 {% endblock %}
