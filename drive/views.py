@@ -449,3 +449,7 @@ def manage_access(request, id):
         )
 
     return JsonResponse({"error": "POST method required"}, status=400)
+
+
+def ping(request):
+    return JsonResponse({"msg": "pong", "info": "server is running"})
