@@ -1,4 +1,5 @@
 {% extends "drive/layout.html" %}
+{% load static %}
 {% block body %}
     {% if user.is_authenticated %}
         <div class="container-fluid min-vh-100 p-3" style="background: black;">
@@ -13,6 +14,7 @@
                         <div class="text-dark col-md-3 d-none d-md-block fw-bold">File Size</div>
                         <div class="text-dark text-center col-md-2 col-sm-5 fw-bold sp-width">Actions</div>
                     </div>
+                    {% csrf_token %}
                     {% for file in files %}
                         <div class="d-flex p-2 border border-dark my-1 file">
                                 <div class="col-7 fields">{{ file.name }}</div>
@@ -21,8 +23,11 @@
                                     <div class="me-3">
                                         <a href="{% url 'download' file.id %}"><i class="fa fa-cloud-download fa-2x" aria-hidden="true"></i></a>
                                     </div>
-                                    <div>
+                                    <div class="me-3"> 
                                         <a href="{% url 'file' file.id %}"><i class="fa fa-info-circle fa-2x" aria-hidden="true"></i></a>
+                                    </div>
+                                    <div>
+                                        <i class="fa fa-trash fa-2x remove-file" aria-hidden="true" data-id="{{ file.id }}"></i>
                                     </div>
                             </div>
                         </div>
@@ -35,5 +40,5 @@
             <a href="{% url 'login' %}" class="btn btn-outline-info btn-lg">Login</a>
     {% endif %}
     </div>
-
+    <script src="{% static 'drive/index.js' %}" type="module"></script>
 {% endblock %}

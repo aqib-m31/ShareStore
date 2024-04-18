@@ -1,3 +1,4 @@
+import { removeFile } from "./removeFile.js";
 const id = document.querySelector('#manage-access').dataset.id;
 const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
@@ -105,7 +106,7 @@ function changePermissions() {
     fetch(`/permissions/${id}`, {
         method: 'PUT',
         headers: {
-            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            'X-CSRFToken': csrf
         },
         body: JSON.stringify({
             permission: document.querySelector('#access').value,
@@ -153,27 +154,9 @@ function changePermissions() {
 }
 
 
-// This function adds an event listener to an element with the ID 'remove-file'.
-// When the element is clicked, it asks for user confirmation and sends a DELETE request
-// to the server with a specific 'id'. It includes a CSRF token in the request headers
-// for security. If the response is a redirection, it redirects the user to the specified URL,
-// and it also logs any error message from the response.
+// This function adds an event listener to to remove button
 document.querySelector('#remove-file').addEventListener('click', () => {
-    if (confirm("Are you sure?")) {
-        fetch(`/file/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-            }
-        }).then(response => {
-            if (response.redirected) {
-                window.location = response.url;
-            }
-            return response.json();
-        }).then(res => {
-            console.log(`Error: ${res.error}`);
-        });
-    }
+    removeFile(id, csrf);
 });
 
 
