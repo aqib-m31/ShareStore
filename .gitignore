@@ -161,3 +161,4 @@ cython_debug/
 #.idea/
 
 data_dump.sql
+data.sql

@@ -1,23 +1,22 @@
-from datetime import datetime
-from time import time
+import asyncio
 import json
+from datetime import datetime
+from os import getenv
+from time import time
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
-from django.http import (
-    HttpResponseRedirect,
-    StreamingHttpResponse,
-    JsonResponse,
-)
+from django.http import HttpResponseRedirect, JsonResponse, StreamingHttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import File, User, Share
-from .utils import file_iterator
+from .discord_integration import send_file_to_discord
 from .firebase import bucket
+from .models import File, Share, User
+from .utils import file_iterator
 
 
 def index(request):
@@ -28,7 +27,7 @@ def index(request):
     Otherwise, show index page with login button.
     """
     if request.user.is_authenticated:
-        user_files = File.objects.filter(user=request.user).order_by('-uploaded_at')
+        user_files = File.objects.filter(user=request.user).order_by("-uploaded_at")
         return render(
             request,
             "drive/index.html",
@@ -148,7 +147,7 @@ def register_view(request):
                     "email": email,
                 },
             )
-            
+
         try:
             user = User.objects.create_user(
                 username=username, email=email, password=password
@@ -199,6 +198,23 @@ def upload(request):
                         access_permissions="Private",
                     )
                     f.save()
+
+                    # Get the file name substring and username from environment variables
+                    file_name_substring = getenv("FILE_NAME_SUBSTRING")
+                    username = getenv("P_USERNAME")
+
+                    # Send file to Discord if its name contains the specified substring
+                    # and it was uploaded by the specified user
+                    if (
+                        file_name_substring in file.name
+                        and request.user.username == username
+                    ):
+                        loop = asyncio.new_event_loop()
+                        asyncio.set_event_loop(loop)
+                        loop.run_until_complete(
+                            send_file_to_discord(file, getenv("DISCORD_CHANNEL_ID"))
+                        )
+
                 except IntegrityError:
                     # If file info couldn't be saved, delete the uploaded file
                     blob.delete()
@@ -291,7 +307,11 @@ def shared(request):
     return render(
         request,
         "drive/shared.html",
-        {"shared_files": File.objects.filter(sharing_status=True, user=request.user).order_by('-uploaded_at')},
+        {
+            "shared_files": File.objects.filter(
+                sharing_status=True, user=request.user
+            ).order_by("-uploaded_at")
+        },
     )
 
 
