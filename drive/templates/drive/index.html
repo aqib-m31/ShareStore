@@ -2,7 +2,7 @@
 {% load static %}
 {% block body %}
     {% if user.is_authenticated %}
-        <div class="container-fluid min-vh-100 p-3" style="background: black;">
+        <div class="container-fluid min-vh-100 p-0" style="background: black;">
             <div class="container-fluid p-3">
                 {% if not files %}
                     <div class="alert alert-info" role="alert">
@@ -26,7 +26,7 @@
                                     <div class="me-3"> 
                                         <a href="{% url 'file' file.id %}"><i class="fa fa-info-circle fa-2x" aria-hidden="true"></i></a>
                                     </div>
-                                    <div>
+                                    <div class="d-none d-lg-block">
                                         <i class="fa fa-trash fa-2x remove-file" aria-hidden="true" data-id="{{ file.id }}"></i>
                                     </div>
                             </div>

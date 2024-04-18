@@ -1,7 +1,7 @@
 {% extends "drive/layout.html" %}
 {% block body %}
     {% if user.is_authenticated %}
-        <div class="container-fluid min-vh-100 p-3" style="background: black;">
+        <div class="container-fluid min-vh-100 p-0" style="background: black;">
             <div class="container-fluid p-3">
                 {% if not shared_files.count %}
                     <div class="alert alert-info" role="alert">
