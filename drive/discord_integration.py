@@ -1,8 +1,7 @@
+import io
 import os
-from shutil import rmtree
 
 import discord
-from django.conf import settings
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -40,18 +39,14 @@ async def send_file_to_discord(file_p, channel_id):
             if not channel:
                 raise Exception("Channel not found.")
 
-            # Create a temporary directory and write the file to it
-            file_dir = os.path.join(settings.BASE_DIR, "temp", file_p.name)
-            os.makedirs(os.path.dirname(file_dir), exist_ok=True)
-            with open(file_dir, "wb+") as destination:
-                for chunk in file_p.chunks():
-                    destination.write(chunk)
+            # Create a BytesIO object from the file data
+            file_data = io.BytesIO()
+            for chunk in file_p.chunks():
+                file_data.write(chunk)
+            file_data.seek(0)
 
-            # Send the file to discord channel
-            await channel.send(file=discord.File(file_dir))
-
-            # Remove the temporary directory
-            rmtree(os.path.dirname(file_dir))
+            # Send the BytesIO instance as a file to the Discord channel
+            await channel.send(file=discord.File(fp=file_data, filename=file_p.name))
         except Exception as e:
             print(f"An error occurred: {e}")
         finally:
