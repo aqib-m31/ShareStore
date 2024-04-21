@@ -2,6 +2,7 @@ import asyncio
 import json
 from datetime import datetime
 from os import getenv
+from dotenv import load_dotenv
 from time import time
 
 from django.contrib.auth import authenticate, login, logout
@@ -17,6 +18,9 @@ from .discord_integration import send_file_to_discord
 from .firebase import bucket
 from .models import File, Share, User
 from .utils import file_iterator
+
+
+load_dotenv()
 
 
 def index(request):
@@ -198,23 +202,23 @@ def upload(request):
                         access_permissions="Private",
                     )
                     f.save()
+                    try:
+                        # Load channel mappings [stored as JSON string] and username from env variables
+                        channel_mappings = json.loads(getenv("CHANNEL_MAPPINGS"))
+                        username = getenv("P_USERNAME")
 
-                    # Get the file name substring and username from environment variables
-                    file_name_substring = getenv("FILE_NAME_SUBSTRING")
-                    username = getenv("P_USERNAME")
+                        for keyword, channel_id in channel_mappings.items():
+                            keyword_lower = keyword.lower()
+                            file_name_lower = file.name.lower()
 
-                    # Send file to Discord if its name contains the specified substring
-                    # and it was uploaded by the specified user
-                    if (
-                        file_name_substring in file.name
-                        and request.user.username == username
-                    ):
-                        loop = asyncio.new_event_loop()
-                        asyncio.set_event_loop(loop)
-                        loop.run_until_complete(
-                            send_file_to_discord(file, getenv("DISCORD_CHANNEL_ID"))
-                        )
-
+                            # Send file to Discord if its name contains the specified substring
+                            # and it was uploaded by the specified user
+                            if keyword_lower in file_name_lower and request.user.username == username:
+                                loop = asyncio.new_event_loop()
+                                asyncio.set_event_loop(loop)
+                                loop.run_until_complete(send_file_to_discord(file, channel_id))
+                    except Exception as e:
+                        print(f"ERROR: {e}")
                 except IntegrityError:
                     # If file info couldn't be saved, delete the uploaded file
                     blob.delete()
