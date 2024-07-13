@@ -6,10 +6,13 @@ Share Store allows users to register, log in, upload files, and manage access pe
 
 [Project Demo](https://youtu.be/0iN3-Odnxy0?si=5VipCIYMWm4CGpjJ)
 
+**Updates:**
+- **Discord Integration:** Enhanced the platform with a new feature that automates the process of uploading files `(college lecture slides in my case)` to Discord. Now, when users upload files containing specific keywords (e.g., lecture names or topics like Math or TOC) from their accounts, these files are automatically sent to a designated Discord channel, as specified in the environment variables. This integration eliminates the need for manual file transfers, saving time and ensuring that the content is promptly shared with the relevant Discord community.
+
 ### Distinctiveness and Complexity
 1. **Distinctiveness**:
     - **Unique Purpose**: Share Store specializes in secure file sharing and storage, setting it apart from traditional social networks or e-commerce sites.
-    - **Targeted File Sharing**: Its main focus is on organized file sharing, not social interactions or product sales.
+    - **Targeted File Sharing**: Its main focus is on organized file sharing, not social interactions or product sales. The recent addition of Discord integration for file (automatic lecture slide) uploads further enhances its role as a specialized platform for content sharing.
     - **Firebase Integration**: Share Store integrates with Firebase Storage, enhancing file management.
 2. **Complexity**:
     - **Django Backend**: Utilizes Django for user authentication, file metadata, and access control.
@@ -34,7 +37,10 @@ Share Store allows users to register, log in, upload files, and manage access pe
 
 8. **`views.py`**: Houses view functions that handle HTTP requests and define how web pages are rendered.
 
-9. **`requirements.txt`**: Lists external Python packages and dependencies required for the project.
+9. **`discord_integration.py`**: Manages the automation of uploading files to a specified Discord channel based on certain criteria, utilizing the Discord API.
+
+10. **`requirements.txt`**: Lists external Python packages and dependencies required for the project.
+
 
 ### How to run Share Store
 [Note: A brief guide on how to create a Firebase project and find the JSON service account key file for this project is given at the end.](#setting-up-firebase-for-share-store)
@@ -61,17 +67,28 @@ Share Store allows users to register, log in, upload files, and manage access pe
     ```
 3. **Create .env File**:
     Create a file named .env in your project directory.
-    In the .env file, add the following line, but make sure to replace "Path to json credential" with the actual path to your Firebase Admin SDK JSON credential file. This credential file allows your Django application to interact with Firebase services securely.
+    In the .env file, add the following lines, replacing placeholder values with your actual configuration details:
     ```
+    STORAGE_BUCKET="Storage Bucket Name"
     GOOGLE_APPLICATION_CREDENTIALS="Path to your Firebase Admin SDK JSON credential file"
+    SECRET_KEY="Your Django secret key"
+    CONNECTION_STRING="Your database connection string (production only)"
+    SERVER_ID="Your Discord Server ID"
+    BOT_TOKEN="Your Discord Bot Token"
+    CHANNEL_MAPPINGS={"substring_1": "Channel_ID_1", "substring_2": "Channel_ID_2"}
+    P_USERNAME="Specific platform username whose files will be checked for Discord posting."
     ```
-    > **Note**: You should obtain the Firebase Admin SDK JSON credential file from your Firebase project settings. If you haven't already created a Firebase project, you can do so here: [Firebase Console](https://console.firebase.google.com/)
+    Each of these variables serves a specific purpose in your application, such as connecting to databases, integrating with Discord, and configuring Firebase services.
 
-4. **Configure Firebase**:
-    In `drive/firebase.py` file, follow these steps to configure Firebase:
-    - Open the drive/firebase.py file in your project.
-    - Locate the line that says `{"storageBucket": "share-store-0.appspot.com"}` *(Line 17)*, replace `"share-store-0.appspot.com"` with the name of your Firebase Storage bucket. You can find your Firebase Storage bucket name in the [Firebase Console](https://console.firebase.google.com/).
-5. **Database Migrations**:
+> [!TIP]
+> If you want to look for more substrings, just add the mapping in the `CHANNEL_MAPPINGS` environment variable like so: `CHANNEL_MAPPINGS={"substring_1": "Channel_ID_1", "substring_2": "Channel_ID_2", "additional_substring": "Additional_Channel_ID"}`.
+
+> [!NOTE]
+> You should obtain the Firebase Admin SDK JSON credential file from your Firebase project settings. If you haven't already created a Firebase project, you can do so here: [Firebase Console](https://console.firebase.google.com/)
+>
+> Additionally, for setting up and obtaining your Discord Bot Token, refer to the Discord Developer Portal. Detailed instructions for creating a bot and inviting it to your server can be found here: [Discord Developer Portal](https://discord.com/developers/docs/intro).
+
+4. **Database Migrations**:
     Run the following commands to create and apply database migrations:
     ```
     python manage.py makemigrations
@@ -79,12 +96,12 @@ Share Store allows users to register, log in, upload files, and manage access pe
     ```
     python manage.py migrate
     ```
-6. **Run the Server**:
+5. **Run the Server**:
     Finally, start the development server with the following command:
     ```
     python manage.py runserver
     ```
-7. **Access the Application**:
+6. **Access the Application**:
     Open a web browser and navigate to `http://localhost:8000`` to access the Share Store application.
 
 ---
@@ -105,4 +122,3 @@ Share Store allows users to register, log in, upload files, and manage access pe
     - Download the JSON key file containing your credentials.
 5. **Use the JSON Key File**:
     - Set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable in your Share Store's `.env` file to the path of the downloaded JSON key file.
-    - Modify the `"storageBucket"` value in Firebase initialization code (in `drive/firebase.py`) to match your Firebase Storage bucket name.
