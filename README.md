@@ -6,8 +6,19 @@ Share Store allows users to register, log in, upload files, and manage access pe
 
 [Project Demo](https://youtu.be/0iN3-Odnxy0?si=5VipCIYMWm4CGpjJ)
 
-**Updates:**
+## Updates
 - **Discord Integration:** Enhanced the platform with a new feature that automates the process of uploading files `(college lecture slides in my case)` to Discord. Now, when users upload files containing specific keywords (e.g., lecture names or topics like Math or TOC) from their accounts, these files are automatically sent to a designated Discord channel, as specified in the environment variables. This integration eliminates the need for manual file transfers, saving time and ensuring that the content is promptly shared with the relevant Discord community.
+
+**Screenshots**
+
+> [!NOTE]
+> The screenshot below demonstrates the Discord integration feature, specifically how the bot posts files to a designated thread/channel on your Discord server. This functionality is triggered by the `CHANNEL_MAPPINGS` configuration, such as including `"Maths": "maths thread/channel ID"` to direct math-related files to the appropriate Discord location.
+>
+> Project demo video is a bit old, so it does not showcase this feature.
+
+<section style="text-align:center" align="center">
+    <img src='screenshots/dev-wizard-automated-upload.jpg?raw=true' alt='Files posted/uploaded by a discord bot to a specific thread/channel.' width='250px' />
+</section>
 
 ### Distinctiveness and Complexity
 1. **Distinctiveness**:
