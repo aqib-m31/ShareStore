@@ -14,7 +14,7 @@ cred_path = getenv("GOOGLE_APPLICATION_CREDENTIALS")
 # Initialize the Firebase Admin SDK using the service account credentials
 cred = credentials.Certificate(cred_path)
 
-firebase_admin.initialize_app(cred, {"storageBucket": "share-store-0.appspot.com"})
+firebase_admin.initialize_app(cred, {"storageBucket": getenv("STORAGE_BUCKET")})
 
 # Create Reference to Firebase Storage bucket
 bucket = storage.bucket()
