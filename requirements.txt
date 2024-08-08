@@ -1,4 +1,4 @@
-Django==4.2.14
+Django>=4.2.15
 firebase-admin==6.2.0
 python-dotenv==1.0.0
 gunicorn==22.0.0
