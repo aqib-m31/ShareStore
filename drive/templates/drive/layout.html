@@ -6,6 +6,7 @@
 {% url 'upload' as upload %}
 {% url 'shared' as shared %}
 {% url 'shared_with_me' as shared_with_me %}
+{% url 'manage_account' as manage_account %}
 
 <!doctype html>
 <html lang="en">
@@ -24,7 +25,7 @@
     </head>
 
     <body class="container-fluid min-vh-100 p-0 m-0 d-flex flex-column">
-        <nav class="navbar navbar-expand-lg" data-bs-theme="dark">
+        <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
             <div class="container-fluid">
                 <a class="navbar-brand d-flex" href="{% url 'index' %}">
                     <img src="{% static 'drive/logo.png' %}" alt="Logo" width="40" height="40" class="d-inline-block align-text-top rounded-circle align-self-center">
@@ -48,6 +49,9 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {% if request.path == shared_with_me %}active{% endif %}" aria-current="page" href="{% url 'shared_with_me' %}">Shared with me</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% if request.path == manage_account %}active{% endif %}" aria-current="page" href="{% url 'manage_account' %}">Manage Account</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {% if request.path == logout %}active{% endif %}" aria-current="page" href="{% url 'logout' %}">Logout</a>
@@ -75,11 +79,16 @@
         {% block body %}
         {% endblock %}
 
-        <footer class="footer mt-auto py-2 bg-dark position-sticky bottom-0">
+        <footer class="footer mt-auto py-2 bg-dark d-flex justify-content-between align-items-center position-sticky bottom-0">
             <div class="container text-center">
                 <span class="text-secondary small">
                     Made with 💖 by <a class="text-secondary text-decoration-none fw-bold" href="https://github.com/aqib-m31" target="_blank">@aqib-m31</a>
                 </span>
+            </div>
+            <div class="position-sticky bottom-0 me-3">
+                <a href="https://github.com/aqib-m31/ShareStore" target="_blank" class="github-fab bg-dark">
+                    <img src="{% static 'drive/GitHub_Invertocat_Light.png' %}" alt="GitHub Logo" width="30" height="30">
+                </a>
             </div>
         </footer>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>

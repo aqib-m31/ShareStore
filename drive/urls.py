@@ -13,5 +13,6 @@ urlpatterns = [
     path("file/shared-with/<int:id>", views.shared_with, name="shared_with"),
     path("file/<int:id>", views.file, name="file"),
     path("permissions/<int:id>", views.manage_access, name="manage_access"),
-    path("ping", views.ping, name="ping")
+    path("ping", views.ping, name="ping"),
+    path("manage", views.manage_account, name="manage_account")
 ]
