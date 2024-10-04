@@ -79,16 +79,16 @@
         {% block body %}
         {% endblock %}
 
-        <footer class="footer mt-auto py-2 bg-dark d-flex justify-content-between align-items-center position-sticky bottom-0">
+        <footer class="footer mt-auto py-2 bg-dark d-flex flex-column align-items-center position-sticky bottom-0">
+            <div class="github-link mb-2 d-flex justify-content-center align-items-center position-absolute" title="GitHub Repository">
+                <a href="https://github.com/aqib-m31/ShareStore" target="_blank">
+                    <img src="{% static 'drive/GitHub_Invertocat_Light.png' %}" alt="GitHub Logo" id="gh-logo-footer">
+                </a>
+            </div>
             <div class="container text-center">
                 <span class="text-secondary small">
                     Made with 💖 by <a class="text-secondary text-decoration-none fw-bold" href="https://github.com/aqib-m31" target="_blank">@aqib-m31</a>
                 </span>
-            </div>
-            <div class="position-sticky bottom-0 me-3">
-                <a href="https://github.com/aqib-m31/ShareStore" target="_blank" class="github-fab bg-dark">
-                    <img src="{% static 'drive/GitHub_Invertocat_Light.png' %}" alt="GitHub Logo" width="30" height="30">
-                </a>
             </div>
         </footer>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>

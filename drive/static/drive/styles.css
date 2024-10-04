@@ -49,3 +49,23 @@
         width: 100%;
     }
 }
+
+.github-link {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    top: -27px;
+    background-color: #343a40;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+#gh-logo-footer {
+    width: 25px;
+    height: 25px;
+}
+
+.github-link:hover {
+    background: linear-gradient(90deg, #7FE787, #58A7FE);
+    transform: scale(1.1);
+}
