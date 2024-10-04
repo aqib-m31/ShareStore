@@ -5,7 +5,7 @@ from os import getenv
 from dotenv import load_dotenv
 from time import time
 
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -473,6 +473,73 @@ def manage_access(request, id):
         )
 
     return JsonResponse({"error": "POST method required"}, status=400)
+
+
+@login_required(login_url="/login")
+def manage_account(request):
+    """
+    Handle user account management, specifically password change.
+
+    If the request method is POST, validate the current password, new password,
+    and confirmation. If successful, update the password and keep the user logged in.
+    If validation fails, display appropriate error messages.
+    """
+    if request.method == "POST":
+        current_password = request.POST["current_password"]
+        new_password = request.POST["new_password"]
+        confirmation = request.POST["confirmation"]
+
+        # Check if all fields are provided
+        if not len(current_password) or not len(new_password) or not len(confirmation):
+            return render(
+                request,
+                "drive/manage_account.html",
+                {
+                    "message": "All fields are required!",
+                },
+            )
+
+        # Check if new password and confirmation match
+        if new_password != confirmation:
+            return render(
+                request,
+                "drive/manage_account.html",
+                {
+                    "message": "New passwords must match!",
+                },
+            )
+        
+        # Validate current password
+        if not request.user.check_password(current_password):
+            return render(
+                request,
+                "drive/manage_account.html",
+                {
+                    "message": "Current password is incorrect!",
+                },
+            )
+
+        # Validate new password
+        try:
+            validate_password(new_password, user=request.user)
+        except ValidationError as e:
+            errors = e.messages
+            return render(
+                request,
+                "drive/manage_account.html",
+                {
+                    "errors": errors,
+                },
+            )
+
+        # Update password & Keep the user logged in
+        request.user.set_password(new_password)
+        request.user.save()
+        update_session_auth_hash(request, request.user)
+
+        return HttpResponseRedirect(reverse("index"))
+
+    return render(request, "drive/manage_account.html")
 
 
 def ping(request):
