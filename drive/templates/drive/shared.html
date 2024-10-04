@@ -1,8 +1,8 @@
 {% extends "drive/layout.html" %}
 {% block body %}
     {% if user.is_authenticated %}
-        <div class="container-fluid min-vh-100 p-0" style="background: black;">
-            <div class="container-fluid p-3">
+        <div class="flex-grow-1" style="background: black;">
+            <div class="container-fluid p-2">
                 {% if not shared_files.count %}
                     <div class="alert alert-info" role="alert">
                         You haven't shared any files yet!

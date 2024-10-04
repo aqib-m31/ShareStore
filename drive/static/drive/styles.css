@@ -5,6 +5,11 @@
     font-family: 'Montserrat', sans-serif;
 }
 
+.navbar,
+.navbar:first-child {
+    background: rgba(0, 0, 0, 0.9);
+}
+
 #share-store {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.7rem;
@@ -45,7 +50,7 @@
 }
 
 @media screen and (max-width: 570px) {
-    .sp-width{
+    .sp-width {
         width: 100%;
     }
 }
