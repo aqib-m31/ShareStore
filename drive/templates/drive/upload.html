@@ -2,7 +2,7 @@
 
 {% block body %}
     {% if user.is_authenticated %}
-        <div class="container-fluid min-vh-100 d-flex flex-column align-items-center justify-content-center p-3" style="background: black;">
+        <div class="d-flex flex-column align-items-center justify-content-center p-3 flex-grow-1" style="background: black;">
             <form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% if error %}

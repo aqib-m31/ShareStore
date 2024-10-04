@@ -2,8 +2,8 @@
 {% load static %}
 {% block body %}
     {% if user.is_authenticated %}
-        <div class="container-fluid min-vh-100 p-0" style="background: black;">
-            <div class="container-fluid p-3">
+        <div class="d-flex flex-grow-1" style="background: black;">
+            <div class="container-fluid p-2">
                 {% if not files %}
                     <div class="alert alert-info" role="alert">
                         No files here! <a href="{% url 'upload' %}" class="alert-link">Upload a FILE</a>.
@@ -35,7 +35,7 @@
                 {% endif %}
             </div>
     {% else %}
-        <div class="container-fluid vh-100 d-flex flex-column align-items-center justify-content-center" style="background: black;">
+        <div class="d-flex flex-column align-items-center justify-content-center flex-grow-1 py-3" style="background: black;">
             <h1 class="tagline">Share Moments, Store Dreams</h1>
             <a href="{% url 'login' %}" class="btn btn-outline-info btn-lg">Login</a>
     {% endif %}

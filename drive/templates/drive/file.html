@@ -2,7 +2,7 @@
 {% load static %}
 {% block body %}
     {% if user.is_authenticated %}
-        <div class="container-fluid min-vh-100 d-flex flex-column align-items-center justify-content-center p-3" style="background: black;">
+        <div class="d-flex flex-column align-items-center justify-content-center p-3 flex-grow-1" style="background: black;">
             {% csrf_token %}
             <div>
                 <div class="rounded-3 p-2 text-center mb-2 d-none" id="msg"></div>
