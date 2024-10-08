@@ -9,7 +9,7 @@ body:
       value: |
         ## Welcome!
         Thank you for considering contributing a feature! If you need real-time help, join us on Discord.
-        
+
   - type: input
     id: related_problem
     attributes:
@@ -18,7 +18,7 @@ body:
       placeholder: "e.g., I find it difficult to navigate the settings."
     validations:
       required: true
-      
+
   - type: input
     id: solution
     attributes:
@@ -27,16 +27,13 @@ body:
       placeholder: "e.g., Add a search bar to quickly find settings."
     validations:
       required: true
-      
+
   - type: textarea
     id: alternatives
     attributes:
       label: Describe alternatives you've considered
       description: A clear and concise description of any alternative solutions or features you've considered.
-      value: |
-        1.
-        2.
-        3.
+      placeholder: "e.g., Using keyboard shortcuts instead."
     validations:
       required: false
 
@@ -46,7 +43,3 @@ body:
       label: Additional context
       description: Add any other context or screenshots about the feature request here.
       placeholder: "e.g., This feature would improve user experience by..."
-      value: |
-      1.
-      2.
-      3.
