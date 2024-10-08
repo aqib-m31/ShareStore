@@ -133,3 +133,11 @@ Share Store allows users to register, log in, upload files, and manage access pe
     - Download the JSON key file containing your credentials.
 5. **Use the JSON Key File**:
     - Set the `GOOGLE_APPLICATION_CREDENTIALS` environment variable in your Share Store's `.env` file to the path of the downloaded JSON key file.
+
+## Contributing
+
+We welcome contributions to Share Store! To get started, please read our [Contributing Guidelines](CONTRIBUTING.md) and follow the instructions for submitting issues and pull requests.
+
+## Code of Conduct
+
+Please read our [Code of Conduct](CODE_OF_CONDUCT.md) to understand our expectations for participants and contributors.
