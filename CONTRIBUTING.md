@@ -79,7 +79,7 @@ Once you submit your pull request, the maintainers will review your changes. Her
 
 ## Code of Conduct
 
-We adhere to a Code of Conduct to ensure a welcoming environment for all contributors. Please read it [here](https://github.com/aqib-m31/ShareStore/blob/main/CODE_OF_CONDUCT.md).
+We adhere to a Code of Conduct to ensure a welcoming environment for all contributors. Please read it [here](CODE_OF_CONDUCT.md).
 
 ## Coding Standards
 
@@ -91,4 +91,4 @@ To maintain the quality of the codebase, please follow these coding standards:
 
 ## License
 
-By contributing to this project, you agree that your contributions will be licensed under the [MIT License](https://github.com/aqib-m31/ShareStore/blob/main/LICENSE).
+By contributing to this project, you agree that your contributions will be licensed under the [MIT License](LICENSE).
