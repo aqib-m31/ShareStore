@@ -41,13 +41,18 @@ body:
     validations:
       required: true
 
-  - type: input
+   - type: dropdown
     id: os
     attributes:
       label: OS
-      description: What operating system are you using?
-      placeholder: "e.g., Windows, Mac, Linux"
-      
+      description: Select your operating system.
+      options:
+        - Windows
+        - Mac
+        - Linux
+    validations:
+      required: true
+
   - type: input
     id: version
     attributes:
