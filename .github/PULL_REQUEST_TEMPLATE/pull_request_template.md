@@ -6,7 +6,7 @@ If applicable, please link to the issue your PR addresses:
 - Closes #[issue number]
 
 ## Checklist
-- [ ] I have read the [Contribution Guidelines](https://github.com/aqib-m31/ShareStore/blob/main/CODE_OF_CONDUCT.md).
+- [ ] I have read the [Contribution Guidelines](/CODE_OF_CONDUCT.md).
 - [ ] I have checked for existing issues or feature requests.
 - [ ] My code follows the project's coding standards.
 - [ ] I have added tests to cover my changes (if applicable).
