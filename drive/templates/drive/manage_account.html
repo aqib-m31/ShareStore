@@ -31,7 +31,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="showPassword"></label>
-                        <input type="checkbox" id="showPassword"> Show Password
+                        <input type="checkbox" id="showPassword" class="show-password-toggle"> Show Password
                     </div>
                     <div class="mb-3 d-grid">
                         <input type="submit" value="Change Password" class="btn btn-outline-light">
@@ -50,10 +50,15 @@
                         <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
                     </div>
                     <div class="mb-3">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                        <input type="password" class="form-control pwd" id="password" name="password" placeholder="Password" required>
                     </div>
                     <div class="mb-3">
                         <input type="text" class="form-control" id="confirmation_text" name="confirmation_text" placeholder='Type "Delete my account!"' required>
+                        <small><label for="confirmation_text" class="mt-2 text-secondary">Type "Delete my account!"</label></small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="showPasswordDeleteAcc"></label>
+                        <input type="checkbox" id="showPasswordDeleteAcc" class="show-password-toggle"> Show Password
                     </div>
                     <div class="mb-3 d-grid">
                         <button type="submit" class="btn btn-outline-danger">Confirm Delete Account</button>

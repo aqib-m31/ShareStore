@@ -2,8 +2,6 @@ let tapCount = 0;
 let tapTimeout;
 
 document.getElementById('username-nav').addEventListener('click', () => {
-    console.log('hello', tapCount);
-
     tapCount++;
     clearTimeout(tapTimeout);
     tapTimeout = setTimeout(() => {
