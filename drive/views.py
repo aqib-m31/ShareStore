@@ -213,10 +213,15 @@ def upload(request):
 
                             # Send file to Discord if its name contains the specified substring
                             # and it was uploaded by the specified user
-                            if keyword_lower in file_name_lower and request.user.username == username:
+                            if (
+                                keyword_lower in file_name_lower
+                                and request.user.username == username
+                            ):
                                 loop = asyncio.new_event_loop()
                                 asyncio.set_event_loop(loop)
-                                loop.run_until_complete(send_file_to_discord(file, channel_id))
+                                loop.run_until_complete(
+                                    send_file_to_discord(file, channel_id)
+                                )
                     except Exception as e:
                         print(f"ERROR: {e}")
                 except IntegrityError:
@@ -508,7 +513,6 @@ def manage_account(request):
                     "message": "New passwords must match!",
                 },
             )
-        
         # Validate current password
         if not request.user.check_password(current_password):
             return render(
@@ -542,5 +546,50 @@ def manage_account(request):
     return render(request, "drive/manage_account.html")
 
 
+@login_required(login_url="/login")
+def delete_account(request):
+    """
+    Handle account deletion.
+
+    Allows authenticated users to delete their account permanently.
+    The user must provide their username, email, password, and a confirmation
+    text to delete their account. If the credentials are valid and the
+    confirmation text matches, the account is deleted, and the user is
+    redirected to the index page.
+    """
+    if request.method == "POST":
+        username = request.POST["username"]
+        email = request.POST["email"]
+        password = request.POST["password"]
+        confirmation_text = request.POST["confirmation_text"]
+
+        if confirmation_text != "Delete my account!":
+            return render(
+                request,
+                "drive/manage_account.html",
+                {
+                    "errors": [
+                        'Confirmation text does not match. Please type "Delete my account!" exactly.'
+                    ]
+                },
+            )
+
+        user = authenticate(request, username=username, password=password)
+        if user is not None and user.email == email:
+            user.delete()
+            return HttpResponseRedirect(reverse("index"))
+        else:
+            return render(
+                request,
+                "drive/manage_account.html",
+                {"errors": ["Invalid credentials. Please try again."]},
+            )
+
+    return HttpResponseRedirect(reverse("manage_account"))
+
+
 def ping(request):
+    """
+    Handle ping requests.
+    """
     return JsonResponse({"msg": "pong", "info": "server is running"})

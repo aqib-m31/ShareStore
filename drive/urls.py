@@ -14,5 +14,6 @@ urlpatterns = [
     path("file/<int:id>", views.file, name="file"),
     path("permissions/<int:id>", views.manage_access, name="manage_access"),
     path("ping", views.ping, name="ping"),
-    path("manage", views.manage_account, name="manage_account")
+    path("manage", views.manage_account, name="manage_account"),
+    path("delete-account", views.delete_account, name="delete_account"),
 ]
