@@ -1,10 +1,14 @@
 import { removeFile } from "./removeFile.js";
 
-const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
+const csrfTokenElement = document.querySelector('[name=csrfmiddlewaretoken]');
 const removeBtns = document.querySelectorAll('.remove-file');
 
-removeBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        removeFile(btn.dataset.id, csrf);
+if (removeBtns.length > 0 && csrfTokenElement) {
+    const csrf = csrfTokenElement.value;
+
+    removeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            removeFile(btn.dataset.id, csrf);
+        });
     });
-});
+}
